@@ -1,0 +1,230 @@
+:host {
+  display: block;
+}
+
+.sidebar {
+  width: 260px;
+  height: 100vh;
+  background-color: #0c091a;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* Estado Minimizado */
+.sidebar.collapsed {
+  width: 80px;
+}
+
+/* Header */
+.sidebar-header {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+.logo-icon {
+  background: linear-gradient(135deg, #a78bfa, #7c3aed);
+  color: #ffffff;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
+}
+
+.logo-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.logo-opus {
+  letter-spacing: 1px;
+}
+
+.logo-sub {
+  color: #94a3b8;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+/* Conteúdo */
+.sidebar-content {
+  flex: 1;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  overflow-y: auto;
+}
+
+/* Seções */
+.menu-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.section-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #4b446c;
+  letter-spacing: 1.5px;
+  padding-left: 12px;
+}
+
+/* Links */
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  background: transparent;
+  border: none;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  transition: color 0.2s ease;
+}
+
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+  color: #ffffff;
+}
+
+.nav-item:hover .nav-icon {
+  color: #a78bfa;
+}
+
+/* Link Ativo */
+.nav-item.active {
+  background-color: rgba(124, 58, 237, 0.12);
+  color: #a78bfa;
+}
+
+.nav-item.active .nav-icon {
+  color: #a78bfa;
+}
+
+/* Botão Sair Especial */
+.btn-logout-link {
+  font-family: inherit;
+}
+.btn-logout-link:hover {
+  background-color: rgba(239, 68, 68, 0.08);
+  color: #f87171;
+}
+.btn-logout-link:hover .logout-icon-svg {
+  color: #f87171;
+}
+
+/* Footer Badge */
+.sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.user-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: rgba(255, 255, 255, 0.02);
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  border-radius: 50%;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.user-role {
+  font-size: 11px;
+  color: #a78bfa;
+  font-weight: 600;
+}
+
+.role-admin-badge {
+  color: #f87171 !important; /* Vermelho suave para Admin */
+}
+
+/* Copyright footer */
+.sidebar-copyright {
+  text-align: center;
+  padding: 16px;
+  font-size: 10px;
+  color: #4b446c;
+  border-top: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+/* Suporte à barra de rolagem estilizada para o menu */
+.sidebar-content::-webkit-scrollbar {
+  width: 4px;
+}
+.sidebar-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}

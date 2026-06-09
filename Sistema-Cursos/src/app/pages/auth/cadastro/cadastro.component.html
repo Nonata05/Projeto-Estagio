@@ -1,0 +1,142 @@
+<div class="auth-wrapper" [ngClass]="isDarkMode ? 'dark-theme' : 'light-theme'">
+  <div class="auth-card">
+    
+    <!-- Botão Voltar para a Home -->
+    <a routerLink="/" class="back-home-btn" title="Voltar para a Home">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      <span>Voltar</span>
+    </a>
+
+    <!-- Cabeçalho do Card -->
+    <div class="auth-header">
+      <div class="auth-logo">
+        <span class="logo-icon">🎓</span>
+        <span class="logo-text">OPUS <span class="accent-text">Qualification</span></span>
+      </div>
+      <h2 class="auth-title">Criar nova conta</h2>
+      <p class="auth-subtitle">Desenvolva novas competências e transforme seu futuro profissional.</p>
+    </div>
+
+    <!-- Formulário -->
+    <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()" class="auth-form">
+      
+      <!-- Campo Nome -->
+      <div class="form-group">
+        <label for="nome" class="form-label">Nome completo</label>
+        <input 
+          type="text" 
+          id="nome" 
+          formControlName="nome" 
+          placeholder="Seu nome completo"
+          class="form-input"
+          [class.input-error]="cadastroForm.get('nome')?.touched && cadastroForm.get('nome')?.invalid"
+        />
+        @if (cadastroForm.get('nome')?.touched && cadastroForm.get('nome')?.invalid) {
+          <span class="error-text">
+            @if (cadastroForm.get('nome')?.errors?.['required']) { Nome é obrigatório. }
+            @if (cadastroForm.get('nome')?.errors?.['minlength'] || cadastroForm.get('nome')?.errors?.['maxlength']) { 
+              Nome deve ter entre 3 e 100 caracteres. 
+            }
+          </span>
+        }
+      </div>
+
+      <!-- Campo E-mail -->
+      <div class="form-group">
+        <label for="email" class="form-label">E-mail</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email" 
+          placeholder="seu@email.com"
+          class="form-input"
+          [class.input-error]="cadastroForm.get('email')?.touched && cadastroForm.get('email')?.invalid"
+        />
+        @if (cadastroForm.get('email')?.touched && cadastroForm.get('email')?.invalid) {
+          <span class="error-text">
+            @if (cadastroForm.get('email')?.errors?.['required']) { Email é obrigatório. }
+            @if (cadastroForm.get('email')?.errors?.['email']) { Email inválido. }
+          </span>
+        }
+      </div>
+
+      <!-- Campo Senha -->
+      <div class="form-group">
+        <label for="senha" class="form-label">Senha</label>
+        <div class="password-container">
+          <input 
+            [type]="showSenha ? 'text' : 'password'" 
+            id="senha" 
+            formControlName="senha" 
+            placeholder="No mínimo 4 caracteres"
+            class="form-input input-password-field"
+            [class.input-error]="cadastroForm.get('senha')?.touched && cadastroForm.get('senha')?.invalid"
+          />
+          <button type="button" class="toggle-password-btn" (click)="showSenha = !showSenha" aria-label="Mostrar/Ocultar senha">
+            @if (showSenha) {
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+            } @else {
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            }
+          </button>
+        </div>
+        @if (cadastroForm.get('senha')?.touched && cadastroForm.get('senha')?.invalid) {
+          <span class="error-text">
+            @if (cadastroForm.get('senha')?.errors?.['required']) { Senha é obrigatória. }
+            @if (cadastroForm.get('senha')?.errors?.['minlength']) { Senha deve ter no mínimo 4 caracteres. }
+          </span>
+        }
+      </div>
+
+      <!-- Campo Confirmar Senha -->
+      <div class="form-group">
+        <label for="confirmarSenha" class="form-label">Confirmar senha</label>
+        <div class="password-container">
+          <input 
+            [type]="showConfirmarSenha ? 'text' : 'password'" 
+            id="confirmarSenha" 
+            formControlName="confirmarSenha" 
+            placeholder="Digite a senha novamente"
+            class="form-input input-password-field"
+            [class.input-error]="cadastroForm.get('confirmarSenha')?.touched && (cadastroForm.get('confirmarSenha')?.invalid || cadastroForm.hasError('mismatch'))"
+          />
+          <button type="button" class="toggle-password-btn" (click)="showConfirmarSenha = !showConfirmarSenha" aria-label="Mostrar/Ocultar confirmação de senha">
+            @if (showConfirmarSenha) {
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+            } @else {
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            }
+          </button>
+        </div>
+        @if (cadastroForm.get('confirmarSenha')?.touched) {
+          <span class="error-text">
+            @if (cadastroForm.get('confirmarSenha')?.errors?.['required']) { Confirmação de senha é obrigatória. }
+            @if (cadastroForm.hasError('mismatch') && !cadastroForm.get('confirmarSenha')?.errors?.['required']) { 
+              As senhas não coincidem. 
+            }
+          </span>
+        }
+      </div>
+
+      @if (errorMessage) {
+        <span class="error-text text-center">{{ errorMessage }}</span>
+      }
+
+      <!-- Botão de Envio -->
+      <button type="submit" class="btn-submit" [disabled]="cadastroForm.invalid">
+        Criar minha conta
+      </button>
+
+      <!-- Rodapé Direto para Login -->
+      <div class="auth-footer">
+        <a routerLink="/login" class="auth-link-direct">
+          Já tenho uma conta. Fazer Login →
+        </a>
+      </div>
+
+    </form>
+  </div>
+</div>

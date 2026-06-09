@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  # 1. Banco de Dados PostgreSQL
+  postgres-db:
+    image: postgres:16-alpine
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: acompanhamento_curso
+    ports:
+      - '5433:5432' # Acessível do seu PC na porta 5433, mas internamente roda na 5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d acompanhamento_curso"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Servidor de Autenticação em .NET 10 (Preview)
+  dotnet-auth-server:
+    build:
+      context: ./Dot Net/AuthServer
+      dockerfile: Dockerfile
+    container_name: dotnet-auth-server
+    restart: always
+    ports:
+      - "5000:8080" # Porta 5000 no seu PC mapeia para a 8080 padrão do .NET 10 dentro do container
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      postgres-db:
+        condition: service_healthy # Garante que o C# só suba após o banco estar pronto
+  
+  # 3. LocalStack (Simulador AWS - Versão Gratuita)
+    # 3. LocalStack (Simulador AWS - Versão Gratuita)
+  localstack:
+    container_name: localstack_main
+    image: localstack/localstack:3.5.0  # <--- Mudamos de 'latest' para a versão 3.5.0 estável e grátis
+    ports:
+      - "127.0.0.1:4566:4566"            
+      - "127.0.0.1:4510-4559:4510-4559"  
+    environment:
+      - DEBUG=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  # 4. API de Cursos em Java (Spring Boot)
+  cursos-api:
+    build:
+      context: "./Spring Boot/ProjetoEstagio"
+      dockerfile: Dockerfile
+    container_name: java-cursos-api
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+      localstack:
+        condition: service_started
+
+  # 5. Frontend em Angular
+  frontend:
+    build:
+      context: ./Sistema-Cursos
+      dockerfile: Dockerfile
+    container_name: angular-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - dotnet-auth-server
+      - cursos-api
+
+volumes:
+  postgres_data:

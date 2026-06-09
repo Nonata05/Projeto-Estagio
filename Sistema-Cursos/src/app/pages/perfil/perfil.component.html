@@ -1,0 +1,202 @@
+<div class="perfil-wrapper" [ngClass]="isDarkMode ? 'dark-theme' : 'light-theme'">
+  
+  <!-- Tela de Carregamento -->
+  <div class="loading-container" *ngIf="loading" style="text-align: center; padding: 50px; color: var(--text-color);">
+    <p>Carregando dados do perfil...</p>
+  </div>
+
+  <ng-container *ngIf="!loading && usuario">
+    <!-- Botão Voltar para o Dashboard (Painel) -->
+    <button class="btn-dashboard-back" (click)="voltarParaDashboard()" title="Voltar ao Painel">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      <span>Voltar ao Painel</span>
+    </button>
+
+    <!-- Botão Mudar Tema -->
+    <button class="btn-theme-toggle" (click)="toggleTema()" title="Mudar Tema">
+      <span *ngIf="!isDarkMode">🌙 Escuro</span>
+      <span *ngIf="isDarkMode">☀️ Claro</span>
+    </button>
+
+    <div class="perfil-container">
+      
+      <!-- Cabeçalho do Perfil -->
+      <div class="perfil-hero">
+        <div class="perfil-avatar-wrapper">
+          <div class="perfil-avatar-iniciais">
+            {{ getIniciais() }}
+          </div>
+          <span class="avatar-status-badge"></span>
+        </div>
+        
+        <div class="perfil-hero-info">
+          <div class="badge-role" [ngClass]="isAdmin() ? 'badge-admin' : 'badge-aluno'">
+            {{ isAdmin() ? 'Administrador' : 'Aluno' }}
+          </div>
+          <h1 class="user-name">{{ getNomeExibicao() }}</h1>
+          <p class="user-email">{{ usuario.email }}</p>
+        </div>
+      </div>
+
+      <div class="perfil-card-wrapper">
+        
+        <!-- [TELA 1] INFORMAÇÕES DA CONTA -->
+        <div class="perfil-card" *ngIf="abaAtiva === 'info'">
+          <h2 class="card-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            Informações da Conta
+          </h2>
+
+          <!-- Alertas de Sucesso/Erro de Edição do Nome -->
+          <div class="success-box" *ngIf="nomeSuccessMessage" style="color: #2ec4b6; margin-bottom: 15px; font-weight: bold; text-align: center;">
+            {{ nomeSuccessMessage }}
+          </div>
+          <div class="error-box" *ngIf="nomeErrorMessage" style="color: #e71d36; margin-bottom: 15px; font-weight: bold; text-align: center;">
+            {{ nomeErrorMessage }}
+          </div>
+          
+          <div class="info-list">
+            
+            <!-- Campo Nome com opção de Edição Integrada -->
+            <div class="info-item">
+              <span class="info-label">Nome Completo</span>
+              
+              <!-- Modo Exibição -->
+              <div *ngIf="!isEditandoNome" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <span class="info-value text-primary-custom" style="font-weight: 600;">
+                  {{ usuario.nome || 'Não preenchido' }}
+                </span>
+                <button type="button" (click)="ativarEdicaoNome()" style="background: none; border: none; color: #3b82f6; cursor: pointer; font-size: 13px; font-weight: bold;">
+                  ✏️ Editar Nome
+                </button>
+              </div>
+
+              <!-- Modo Edição de Nome (Formulário) -->
+              <div *ngIf="isEditandoNome" [formGroup]="nomeForm" style="width: 100%; margin-top: 5px;">
+                <div style="display: flex; gap: 10px;">
+                  <input 
+                    type="text" 
+                    formControlName="nome" 
+                    class="form-input" 
+                    placeholder="Digite seu nome completo"
+                    style="flex: 1; padding: 6px 10px; border-radius: 6px;"
+                  >
+                  <button type="button" class="btn-submit" (click)="salvarNome()" [disabled]="nomeLoading || nomeForm.invalid" style="padding: 6px 15px; font-size: 13px;">
+                    {{ nomeLoading ? 'Salvando...' : 'Salvar' }}
+                  </button>
+                  <button type="button" class="btn-cancel" (click)="cancelarEdicaoNome()" [disabled]="nomeLoading" style="padding: 6px 15px; font-size: 13px; background: #6b7280;">
+                    Cancelar
+                  </button>
+                </div>
+                <span class="error-text" *ngIf="nomeForm.get('nome')?.touched && nomeForm.get('nome')?.invalid" style="color: #e71d36; font-size: 12px; display: block; margin-top: 5px;">
+                  O nome precisa ter pelo menos 3 caracteres.
+                </span>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <span class="info-label">E-mail Cadastrado</span>
+              <span class="info-value text-primary-custom">{{ usuario.email }}</span>
+            </div>
+
+            <!-- Dados adicionais se o usuário for ADMIN -->
+            <ng-container *ngIf="isAdmin()">
+              <div class="info-item">
+                <span class="info-label">Nível de Acesso</span>
+                <span class="info-value accent-text">{{ usuario.papel }}</span>
+              </div>
+            </ng-container>
+          </div>
+
+          <button class="btn-navigate" (click)='irParaMudarSenha()' style="margin-top: 20px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Alterar Senha da Conta
+          </button>
+        </div>
+
+        <!-- [TELA 2] ALTERAR SENHA -->
+        <div class="perfil-card" *ngIf="abaAtiva === 'senha'">
+          <div class="card-header-back">
+            <button class="btn-back" (click)="voltarParaInfo()" title="Voltar para Informações">
+              ← Voltar
+            </button>
+            <h2 class="card-title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              Segurança e Senha
+            </h2>
+          </div>
+
+          <!-- Alertas de Sucesso e Erro de Senha -->
+          <div class="success-box" *ngIf="senhaSuccessMessage" style="color: #2ec4b6; margin-bottom: 15px; font-weight: bold; text-align: center;">
+            {{ senhaSuccessMessage }}
+          </div>
+          <div class="error-box" *ngIf="senhaErrorMessage" style="color: #e71d36; margin-bottom: 15px; font-weight: bold; text-align: center;">
+            {{ senhaErrorMessage }}
+          </div>
+
+          <form [formGroup]="senhaForm" (ngSubmit)="alterarSenha()" class="perfil-form">
+            
+            <div class="form-group">
+              <label class="form-label" for="senhaAtual">Senha Atual</label>
+              <input 
+                type="password" 
+                id="senhaAtual"
+                name="senhaAtual"
+                formControlName="senhaAtual" 
+                placeholder="Digite sua senha atual" 
+                class="form-input"
+                autocomplete="current-password"
+                [class.input-error]="senhaForm.get('senhaAtual')?.touched && senhaForm.get('senhaAtual')?.invalid"
+              >
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="novaSenha">Nova Senha</label>
+              <input 
+                type="password" 
+                id="novaSenha"
+                name="novaSenha"
+                formControlName="novaSenha" 
+                placeholder="Mínimo 4 caracteres" 
+                class="form-input"
+                autocomplete="new-password"
+                [class.input-error]="senhaForm.get('novaSenha')?.touched && senhaForm.get('novaSenha')?.invalid"
+              >
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="confirmarSenha">Confirmar Nova Senha</label>
+              <input 
+                type="password" 
+                id="confirmarSenha"
+                name="confirmarSenha"
+                formControlName="confirmarSenha" 
+                placeholder="Repita a nova senha" 
+                class="form-input"
+                autocomplete="new-password"
+                [class.input-error]="senhaForm.get('confirmarSenha')?.touched && (senhaForm.get('confirmarSenha')?.invalid || senhaForm.hasError('mismatch'))"
+              >
+              <span class="error-text" *ngIf="senhaForm.get('confirmarSenha')?.touched && senhaForm.hasError('mismatch')" style="color: #e71d36; font-size: 12px; display: block; margin-top: 5px;">
+                As senhas digitadas não coincidem.
+              </span>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-submit" [disabled]="senhaLoading || senhaForm.invalid">
+                {{ senhaLoading ? 'Salvando...' : 'Atualizar Senha' }}
+              </button>
+              <button type="button" class="btn-cancel" (click)="voltarParaInfo()" [disabled]="senhaLoading">
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </ng-container>
+</div>

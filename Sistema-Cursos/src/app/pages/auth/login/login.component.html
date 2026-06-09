@@ -1,0 +1,105 @@
+<div class="auth-wrapper" [ngClass]="isDarkMode ? 'dark-theme' : 'light-theme'">
+  <div class="auth-card">
+
+    <!-- Botão Voltar para a Home -->
+    <a routerLink="/" class="back-home-btn" title="Voltar para a Home">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      <span>Voltar</span>
+    </a>
+    
+    <!-- Cabeçalho (Identico ao de Cadastro) -->
+    <div class="auth-header">
+      <div class="auth-logo">
+        <span class="logo-icon">🎓</span>
+        <span class="logo-text">OPUS <span class="accent-text">Qualification</span></span>
+      </div>
+      <h2 class="auth-title">Bem-vindo de volta</h2>
+      <p class="auth-subtitle">Acesse sua conta para continuar seus estudos.</p>
+    </div>
+
+    <!-- Lembrete Importante de Preenchimento -->
+    <div class="info-reminder">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="16" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+      </svg>
+      <span>Lembrete: O preenchimento correto do e-mail e da senha é obrigatório para acessar a plataforma.</span>
+    </div>
+
+    <!-- Caixinha de Erro do Servidor -->
+    <div class="error-box" *ngIf="errorMessage">
+       {{ errorMessage }}
+    </div>
+
+    <!-- Formulário -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+      
+      <!-- Campo E-mail -->
+      <div class="form-group">
+        <label for="email" class="form-label">E-mail</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email" 
+          placeholder="seu@email.com"
+          class="form-input"
+          [class.input-error]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" 
+        />
+        <span class="error-text" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.hasError('required')">O e-mail é obrigatório.</span>
+        <span class="error-text" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.hasError('email')">Digite um e-mail válido.</span>
+      </div>
+
+      <!-- Campo Senha -->
+      <div class="form-group">
+        <label for="password" class="form-label">Senha</label>
+        <div class="password-container">
+          <input 
+            [type]="showSenha ? 'text' : 'password'" 
+            id="password" 
+            formControlName="senha" 
+            placeholder="Sua senha"
+            class="form-input input-password-field"
+            [class.input-error]="loginForm.get('senha')?.touched && loginForm.get('senha')?.invalid" 
+          />
+          <button type="button" class="toggle-password-btn" (click)="showSenha = !showSenha" aria-label="Mostrar/Ocultar senha">
+            <ng-container *ngIf="showSenha">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+            </ng-container>
+            <ng-container *ngIf="!showSenha">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </ng-container>
+          </button>
+        </div>
+        <span class="error-text" *ngIf="loginForm.get('senha')?.touched && loginForm.get('senha')?.hasError('required')">A senha é obrigatória.</span>
+        <span class="error-text" *ngIf="loginForm.get('senha')?.touched && loginForm.get('senha')?.hasError('minlength')">A senha deve ter no mínimo 4 caracteres.</span>
+      </div>
+
+      <!-- Botão de Envio -->
+      <button type="submit" class="btn-submit" [disabled]="loading || loginForm.invalid">
+        {{ loading ? 'Entrando...' : 'Entrar' }}
+      </button>
+
+      <!-- Rodapé: Ir para Cadastro -->
+      <div class="auth-footer">
+        <a routerLink="/cadastro" class="auth-link-direct">
+          Não tem uma conta? Cadastre-se →
+        </a>
+      </div>
+
+    </form>
+
+    <!-- Caixinha de Contas Demo -->
+    <div class="demo-box">
+      <p class="demo-title">Contas demo:</p>
+      <p class="demo-accounts">
+        <span class="demo-user">joao@email.com</span> · 
+        <span class="demo-user">carol@email.com</span> (aluno)
+      </p>
+    </div>
+
+  </div>
+</div>

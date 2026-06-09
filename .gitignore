@@ -1,0 +1,9 @@
+/localstack_volume/
+**/postgres_data/
+
+teste.tex
+
+.vscode/
+
+.DS_Store
+Thumbs.db

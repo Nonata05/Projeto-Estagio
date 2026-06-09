@@ -1,0 +1,359 @@
+:host {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* ==========================================
+   WRAPPER E CONFIGURAÇÃO DE TEMAS
+   ========================================== */
+.auth-wrapper {
+  --purple-primary: #8b5cf6;
+  --purple-hover: #7c3aed;
+  --purple-light: #a78bfa;
+  --error-color: #ef4444;
+  --transition-speed: 0.3s;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+/* Tema Escuro - Idêntico ao da Home */
+.auth-wrapper.dark-theme {
+  --bg-color: #0b0813;
+  --bg-card: #141125;
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --input-bg: rgba(255, 255, 255, 0.03);
+}
+
+/* Tema Claro - Idêntico ao da Home */
+.auth-wrapper.light-theme {
+  --bg-color: #f8fafc;
+  --bg-card: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --input-bg: #f1f5f9;
+}
+
+/* ==========================================
+   CARD DE CADASTRO
+   ========================================== */
+.auth-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 40px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+  animation: scaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color var(--transition-speed);
+}
+
+/* ==========================================
+   CABEÇALHO E BRANDING
+   ========================================== */
+.auth-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.auth-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.logo-icon {
+  font-size: 1.75rem;
+}
+
+.logo-text {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.accent-text {
+  color: var(--purple-light);
+}
+
+.auth-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+  margin: 0 0 6px 0;
+}
+
+.auth-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ==========================================
+   FORMULÁRIOS E INPUTS
+   ========================================== */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.form-input {
+  height: 44px;
+  padding: 0 14px;
+  background-color: var(--input-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 14px;
+  color: var(--text-primary);
+  transition: all 0.15s ease;
+}
+
+.form-input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+/* Efeito de foco com brilho roxo */
+.form-input:focus {
+  outline: none;
+  background-color: var(--bg-card);
+  border-color: var(--purple-primary);
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15);
+}
+
+/* Erros de validação */
+.input-error {
+  border-color: var(--error-color) !important;
+}
+
+.error-text {
+  font-size: 12px;
+  color: var(--error-color);
+  margin-top: 4px;
+}
+
+/* ==========================================
+   BOTÃO DE CADASTRO (Roxo Premium)
+   ========================================== */
+.btn-submit {
+  width: 100%;
+  height: 46px;
+  background-color: var(--purple-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  margin-top: 8px;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: var(--purple-hover);
+}
+
+.btn-submit:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn-submit:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ==========================================
+   RODAPÉ DO CADASTRO
+   ========================================== */
+.auth-footer {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 12px 0 0 0;
+}
+
+.auth-link {
+  color: var(--purple-light);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+/* Animação de entrada suave */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ==========================================
+   PASSWORD TOGGLE CONTAINER
+   ========================================== */
+.password-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* Garante que o input ocupe todo o espaço e crie margem à direita para o olho */
+.input-password-field {
+  width: 100%;
+  padding-right: 46px; /* Evita que o texto passe por baixo do ícone */
+}
+
+/* Estilização do botão de olho */
+.toggle-password-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 8px;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+/* Efeito Hover sutil no botão do olho */
+.toggle-password-btn:hover {
+  color: var(--text-primary);
+}
+
+.auth-wrapper.dark-theme .toggle-password-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.auth-wrapper.light-theme .toggle-password-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Remove contornos padrões ao focar */
+.toggle-password-btn:focus {
+  outline: none;
+}
+
+
+/* Garante o correto alinhamento absoluto dos itens internos */
+.auth-card {
+  position: relative;
+  /* (Mantenha as propriedades que você já tem de padding, border-radius, background, etc.) */
+}
+
+/* ==========================================
+   BOTÃO VOLTAR PARA A HOME (TOPO)
+   ========================================== */
+.back-home-btn {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+/* Transição de movimento na seta */
+.back-home-btn svg {
+  transition: transform 0.2s ease;
+}
+
+/* Efeito Hover do botão voltar */
+.back-home-btn:hover {
+  color: var(--text-primary);
+}
+
+.back-home-btn:hover svg {
+  transform: translateX(-4px); /* Seta mexe levemente para a esquerda */
+}
+
+/* Temas Adaptativos para o Background do Botão Voltar */
+.auth-wrapper.dark-theme .back-home-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.auth-wrapper.light-theme .back-home-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+
+/* ==========================================
+   RODAPÉ E RETORNO AO LOGIN
+   ========================================== */
+.auth-footer {
+  text-align: center;
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.auth-link-direct {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+
+/* Hover suave e adaptativo para o botão "Já tenho uma conta" */
+.auth-link-direct:hover {
+  color: var(--purple-light);
+  transform: translateY(-1px);
+}
+
+.auth-wrapper.dark-theme .auth-link-direct:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.auth-wrapper.light-theme .auth-link-direct:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.auth-link-direct:active {
+  transform: translateY(0);
+}

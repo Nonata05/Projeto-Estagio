@@ -1,0 +1,291 @@
+<!-- A classe do tema agora é aplicada diretamente aqui para contornar o isolamento do Angular -->
+<div class="home-wrapper" [ngClass]="isDarkMode ? 'dark-theme' : 'light-theme'">
+  
+  <!-- 🧭 HEADER -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo">
+        <span class="logo-icon">🎓</span>
+        <span class="logo-text">OPUS <span class="accent-text">Qualification</span></span>
+      </div>
+      
+      <nav class="nav-menu">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#cursos" class="nav-link">Cursos</a>
+        <a href="#sobre" class="nav-link">Sobre</a>
+        <a href="#contato" class="nav-link">Contato</a>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Botão Dark Mode -->
+        <button class="theme-toggle" (click)="toggleTheme()" aria-label="Alternar tema">
+          @if (isDarkMode) {
+            <span class="toggle-icon">☀️</span>
+          } @else {
+            <span class="toggle-icon">🌙</span>
+          }
+        </button>
+        
+        <a routerLink="/login" class="btn-text">Entrar</a>
+        <a routerLink="/cadastro" class="btn-primary pill">Criar Conta</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 🚀 HERO SECTION -->
+  <section id="home" class="hero-section">
+    <div class="container hero-container">
+      <div class="badge-container">
+        <span class="sparkle-icon">✨</span>
+        <span class="badge-text">Catálogo Inteligente e Curado</span>
+      </div>
+
+      <h1 class="hero-title">
+        Sua ponte direta para o <span class="highlight-purple">conhecimento</span> sem intermediários
+      </h1>
+
+      <p class="hero-subtitle">
+        OPUS Qualification  &mdash; Encontre cursos de qualificação organizados em um só lugar e impulsione sua carreira.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#cursos" class="btn-primary-large">
+          Explorar Cursos <span class="arrow-icon">→</span>
+        </a>
+        <a routerLink="/cadastro" class="btn-secondary-large">
+          Criar Conta
+        </a>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        @for (stat of stats; track stat.rotulo) {
+          <div class="stat-item">
+            <span class="stat-number">{{ stat.quantidade }}</span>
+            <span class="stat-label">{{ stat.rotulo }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 🎯 SEÇÃO CURSOS SELECIONADOS -->
+  <section id="cursos" class="courses-section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Cursos em Destaque</h2>
+          <p class="section-subtitle">As melhores oportunidades mapeadas diretamente para você.</p>
+        </div>
+        <a href="#cursos" class="view-all-link">Ver todos <span class="arrow">↗</span></a>
+      </div>
+
+      <!-- Exibe o Grid Dinamicamente se houver cursos cadastrados no Banco de Dados -->
+      @if (cursosDestaque.length > 0) {
+        <div class="courses-grid">
+          @for (curso of cursosDestaque; track curso.id) {
+            <div class="course-card">
+              
+              <div class="course-visual-header" [ngClass]="getThemeClass(curso.categoria)">
+                <div class="visual-accent-circle"></div>
+                
+                <!-- Ícone dinâmico baseado na Categoria Real do Banco de Dados -->
+                @switch (curso.categoria) {
+                  @case ('PROGRAMACAO') {
+                    <!-- Ícone de Código </> -->
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                  }
+                  @case ('DADOS_LOGICA') {
+                    <!-- Ícone de Banco de Dados -->
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5V19C3 20.66 7 22 12 22C17 22 21 20.66 21 19V5"></path><path d="M3 12C3 13.66 7 15 12 15C17 15 21 13.66 21 12"></path></svg>
+                  }
+                  @case ('DESIGN') {
+                    <!-- Ícone de Vetor / UI / Relógio -->
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  }
+                  @default {
+                    <!-- Ícone de fallback -->
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                  }
+                }
+              </div>
+
+              <div class="course-content">
+                <span class="course-tag">CÓD. {{ curso.id }}</span>
+                <h3 class="course-title">{{ curso.titulo }}</h3>
+                <p class="course-description">{{ curso.descricao }}</p>
+                
+                <a (click)="aoAcessarCurso($event, curso)" class="course-details-link" style="cursor: pointer;">
+                  Acessar Conteúdo <span class="arrow">↗</span>
+                </a>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <!-- Estado de Carregamento / Vazio Amigável -->
+        <div class="no-courses-placeholder" style="text-align: center; padding: 5rem 2rem; background: rgba(255, 255, 255, 0.02); border-radius: 16px; border: 1px dashed rgba(255, 255, 255, 0.1);">
+          <span style="font-size: 3rem; display: block; margin-bottom: 1rem;">🔍</span>
+          <h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem; color: #fff;">Buscando cursos no sistema...</h3>
+          <p style="font-size: 1rem; color: #8a8d98; max-width: 400px; margin: 0 auto;">Nossa equipe está carregando as melhores oportunidades de qualificação para você.</p>
+        </div>
+      }
+    </div>
+  </section>
+
+
+  <!-- ⚡ SEÇÃO PENSADO PARA SUA PRODUTIVIDADE -->
+  <section class="features-section">
+    <div class="container">
+      <h2 class="section-title text-center">Pensado para sua produtividade</h2>
+      
+      <div class="features-grid">
+        @for (feat of features; track feat.titulo) {
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">
+              @if (feat.icon === 'grid_view') {
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              } @else if (feat.icon === 'bolt') {
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polyline></svg>
+              } @else if (feat.icon === 'layers') {
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              } @else if (feat.icon === 'link') {
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+              } @else {
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"></path></svg>
+              }
+            </div>
+            <div class="feature-info">
+              <h3 class="feature-card-title">{{ feat.titulo }}</h3>
+              <p class="feature-card-desc">{{ feat.descricao }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 📖 SEÇÃO DETALHE HUB -->
+  <section id="sobre" class="hub-details-section">
+    <div class="container hub-grid">
+      <div class="hub-info">
+        <h2 class="hub-title">Sua plataforma definitiva de <br><span class="highlight-white">conhecimento</span></h2>
+        <p class="hub-description">
+          A <strong>OPUS Qualification</strong> centraliza cursos de qualificação profissional, organizando oportunidades de aprendizado por áreas de conhecimento para apoiar seu desenvolvimento e crescimento no mercado de trabalho.
+        </p>
+
+        <ul class="hub-checklist">
+          <li>
+            <span class="check-icon">✓</span> Cursos organizados por áreas de conhecimento
+          </li>
+          <li>
+            <span class="check-icon">✓</span>  Acesso rápido às principais plataformas de ensino
+          </li>
+          <li>
+            <span class="check-icon">✓</span> Encontre oportunidades de qualificação em um só lugar
+          </li>
+        </ul>
+      </div>
+
+      <div class="hub-stats-visual">
+        <div class="hub-stat-card">
+          <span class="hub-stat-num">+500</span>
+          <span class="hub-stat-lbl">Cursos no catálogo</span>
+        </div>
+        <div class="hub-stat-card">
+          <span class="hub-stat-num">+30</span>
+          <span class="hub-stat-lbl">Plataformas mapeadas</span>
+        </div>
+        <div class="hub-stat-card filled-purple">
+          <span class="hub-stat-num">100%</span>
+          <span class="hub-stat-lbl">Foco em facilidade e curadoria</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 📞 SEÇÃO CONTATO (Nova Seção) -->
+  <section id="contato" class="contact-section">
+    <div class="container">
+      <div class="contact-card-wrapper">
+        <div class="contact-info">
+          <h2 class="section-title">Fale Conosco</h2>
+          <p class="section-subtitle">Dúvidas, sugestões ou parcerias? Entre em contato diretamente com a nossa equipe de suporte e curadoria.</p>
+        </div>
+        <div class="emails-grid">
+          <!-- Card E-mail João -->
+          <div class="email-box">
+            <span class="email-icon">✉️</span>
+            <div class="email-details">
+              <span class="email-name">João Silva</span>
+              <a href="mailto:joao@email.com" class="email-link">joao@email.com</a>
+            </div>
+          </div>
+          <!-- Card E-mail Carol -->
+          <div class="email-box">
+            <span class="email-icon">✉️</span>
+            <div class="email-details">
+              <span class="email-name">Carol Souza</span>
+              <a href="mailto:carol@email.com" class="email-link">carol@email.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 💜 BANNER CTA -->
+  <section class="cta-banner-section">
+    <div class="container">
+      <div class="cta-banner-content">
+        <h2 class="cta-title">Pronto para começar a estudar?</h2>
+        <p class="cta-subtitle">
+          Cadastre-se para explorar cursos de qualificação organizados por áreas de conhecimento e encontre o caminho ideal para sua evolução profissional.
+        </p>
+        <a routerLink="/cadastro" class="btn-cta">Criar Conta Grátis</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 🏁 FOOTER -->
+  <footer class="main-footer">
+    <div class="footer-divider-bar"></div>
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <span class="logo-icon">🎓</span>
+          <span class="logo-text">OPUS <span class="accent-text">Qualification</span></span>
+        </div>
+        <p class="footer-about">
+          Uma iniciativa inteligente que conecta você ao melhor ecossistema de aprendizado online sem barreiras.
+        </p>
+      </div>
+
+      <div class="footer-links-column">
+        <h4 class="footer-title">Institucional</h4>
+        <ul>
+          <li><a href="#sobre">Sobre nós</a></li>
+          <li><a href="#home">Início</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-column">
+        <h4 class="footer-title">Áreas</h4>
+        <ul>
+          <li><a href="#cursos">Programação</a></li>
+          <li><a href="#cursos">Design</a></li>
+          <li><a href="#cursos">Marketing</a></li>
+          <li><a href="#cursos">Dados</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; 2026 OPUS Qualification. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+</div>

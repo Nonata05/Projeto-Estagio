@@ -1,0 +1,171 @@
+<aside class="sidebar" [class.collapsed]="isCollapsed">
+  
+  <!-- Logo / Header do Menu -->
+  <div class="sidebar-header">
+    <div class="logo-container">
+      <div class="logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+          <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
+        </svg>
+      </div>
+      <span class="logo-text" *ngIf="!isCollapsed">
+        <span class="logo-opus">OPUS</span> <span class="logo-sub">Qualification</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Corpo do Menu de Navegação -->
+  <div class="sidebar-content">
+
+    <!-- SEÇÃO GLOBAL: DASHBOARD (Visível para todos, com rota dinâmica) -->
+    <div class="menu-section">
+      <span class="section-title" *ngIf="!isCollapsed">Início</span>
+      <nav class="nav-links">
+        <a [routerLink]="rotaDashboard" routerLinkActive="active" class="nav-item" title="Dashboard">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+          </span>
+          <span class="nav-text" *ngIf="!isCollapsed">Dashboard</span>
+        </a>
+      </nav>
+    </div>
+    
+    <!-- SEÇÃO 1: NAVEGAÇÃO DO ALUNO (Oculta se for ADMIN) -->
+    <div class="menu-section" *ngIf="isAluno">
+      <span class="section-title" *ngIf="!isCollapsed">Área do Aluno</span>
+      <nav class="nav-links">
+        
+        <!-- Meus Cursos -->
+        <a routerLink="/aluno/meus-cursos" routerLinkActive="active" class="nav-item" title="Meus Cursos">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="9"></rect>
+              <rect x="14" y="3" width="7" height="5"></rect>
+              <rect x="14" y="12" width="7" height="9"></rect>
+              <rect x="3" y="16" width="7" height="5"></rect>
+            </svg>
+          </span>
+          <span class="nav-text" *ngIf="!isCollapsed">Meus Cursos</span>
+        </a>
+
+        <!-- Catálogo de Cursos (Rota Compartilhada!) -->
+        <a routerLink="/catalogo" routerLinkActive="active" class="nav-item" title="Catálogo de Cursos">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+          </span>
+          <span class="nav-text" *ngIf="!isCollapsed">Catálogo de Cursos</span>
+        </a>
+
+      </nav>
+    </div>
+
+    <!-- SEÇÃO 2: EXCLUSIVA DO ADMINISTRADOR -->
+    <div class="menu-section" *ngIf="isAdmin">
+      <span class="section-title" *ngIf="!isCollapsed">Administração</span>
+      <nav class="nav-links">
+        
+        <!-- Gerenciar Cursos -->
+        <a routerLink="/admin/cursos" routerLinkActive="active" class="nav-item" title="Gerenciar Cursos">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+          </span>
+          <span class="nav-text" *ngIf="!isCollapsed">Gerenciar Cursos</span>
+        </a>
+
+        <!-- Gerenciar Usuários -->
+        <a routerLink="/admin/usuarios" routerLinkActive="active" class="nav-item" title="Gerenciar Usuários">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </span>
+          <span class="nav-text" *ngIf="!isCollapsed">Gerenciar Usuários</span>
+        </a>
+
+        <!-- Gerenciar Matrículas -->
+        <a routerLink="/admin/matriculas" routerLinkActive="active" class="nav-item" title="Gerenciar Matrículas">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </span>
+          <span class="nav-text" *ngIf="!isCollapsed">Matrículas & Status</span>
+        </a>
+
+      </nav>
+    </div>
+
+    <!-- SEÇÃO 3: CONTA -->
+    <div class="menu-section">
+      <span class="section-title" *ngIf="!isCollapsed">Conta</span>
+      <nav class="nav-links">
+        
+        <!-- Perfil (Compartilhado) -->
+        <a routerLink="/perfil" routerLinkActive="active" class="nav-item" title="Meu Perfil">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </span>
+          <span class="nav-text" *ngIf="!isCollapsed">Meu Perfil</span>
+        </a>
+
+        <!-- Sair -->
+        <button (click)="logout()" class="nav-item btn-logout-link" title="Sair">
+          <span class="nav-icon logout-icon-svg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+          </span>
+          <span class="nav-text" *ngIf="!isCollapsed">Sair</span>
+        </button>
+
+      </nav>
+    </div>
+
+  </div>
+
+  <!-- Rodapé do Menu (Profile Badge - Seguro contra nulos) -->
+  <div class="sidebar-footer" *ngIf="!isCollapsed && usuarioLogado">
+    <div class="user-badge">
+      <div class="user-avatar">
+        {{ primeiraLetraNome }}
+      </div>
+      <div class="user-details">
+        <span class="user-name">{{ usuarioLogado.nome }}</span>
+        <span class="user-role" [ngClass]="{'role-admin-badge': isAdmin}">
+          {{ isAdmin ? 'Administrador' : 'Aluno Premium' }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Copyright Simplificado se minimizado -->
+  <div class="sidebar-copyright" *ngIf="!isCollapsed">
+    <span>© OPUS Qualification</span>
+  </div>
+
+</aside>

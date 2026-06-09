@@ -1,0 +1,661 @@
+:host {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* ========================================================
+   CONFIGURAÇÕES GERAIS E VARIÁVEIS DE TEMA (IGUAL AO PERFIL)
+   ======================================================== */
+.dashboard-wrapper {
+  /* Variáveis estáticas compartilhadas */
+  --purple-primary: #8b5cf6;
+  --purple-hover: #7c3aed;
+  --purple-light: #a78bfa;
+  --transition-speed: 0.3s;
+  --error-color: #ef4444;
+
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+/* Tema Escuro (Padrão) */
+.dashboard-wrapper.dark-theme {
+  --bg-color: #0b0813;
+  --bg-card: #141125;
+  --bg-card-hover: #1c1833;
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --input-bg: #1c1833;
+}
+
+/* Tema Claro */
+.dashboard-wrapper.light-theme {
+  --bg-color: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --input-bg: #f1f5f9;
+}
+
+/* ==========================================
+   ÁREA DE CONTEÚDO E ESTRUTURA
+   ========================================== */
+.dashboard-main-content {
+  flex: 1;
+  min-width: 0;
+  margin-left: 260px;
+  background-color: var(--bg-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar-collapsed .dashboard-main-content {
+  margin-left: 80px;
+}
+
+/* Topbar */
+.dashboard-header {
+  height: 70px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sidebar-toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.theme-toggle {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Container */
+.dashboard-container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 30px;
+}
+
+/* Cabeçalho Administrativo */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.admin-title {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.5px;
+}
+
+.admin-subtitle {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Botão Criar Curso Premium */
+.btn-create {
+  background-color: var(--purple-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 22px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-create:hover {
+  background-color: var(--purple-hover);
+  transform: translateY(-1px);
+}
+
+/* ==========================================
+   BARRA DE FILTROS E BUSCA
+   ========================================== */
+.filter-bar {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.search-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 16px 14px 44px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  color: var(--text-primary);
+  outline: none;
+  box-sizing: border-box;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: var(--purple-primary);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+}
+
+.select-wrapper {
+  width: 220px;
+}
+
+.category-select {
+  width: 100%;
+  padding: 14px 16px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.category-select:focus {
+  border-color: var(--purple-primary);
+}
+
+/* ==========================================
+   TABELA ADMINISTRATIVA DE CURSOS
+   ========================================== */
+.table-container {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.admin-table th {
+  background-color: rgba(0, 0, 0, 0.12);
+  padding: 18px 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-color);
+  letter-spacing: 0.5px;
+}
+
+.admin-table td {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+.course-id {
+  font-weight: 700;
+  color: var(--purple-light);
+}
+
+.course-info-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.table-course-title {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text-primary);
+}
+
+.table-course-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Badges de Categorias */
+.badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-programacao { background-color: rgba(139, 92, 246, 0.15); color: var(--purple-light); }
+.badge-dados_logica { background-color: rgba(16, 185, 129, 0.15); color: #34d399; }
+.badge-design { background-color: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+
+/* Botões de Ação na Tabela */
+.actions-cell {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-action {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.btn-edit {
+  background-color: var(--bg-card-hover);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+.btn-edit:hover { 
+  background-color: rgba(139, 92, 246, 0.15); 
+  color: var(--purple-light);
+  border-color: var(--purple-light);
+}
+
+.btn-delete {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error-color);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+.btn-delete:hover { 
+  background-color: var(--error-color); 
+  color: #ffffff;
+  border-color: var(--error-color);
+}
+
+/* ========================================================
+   MODAL DE CADASTRO/EDIÇÃO (ESTILO IDÊNTICO AO PERFIL)
+   ======================================================== */
+
+/* Dark Theme Modal */
+.modal-overlay {
+  --purple-primary: #8b5cf6;
+  --purple-hover: #7c3aed;
+  --purple-light: #a78bfa;
+  --error-color: #ef4444;
+
+  /* Estilos herdados do Tema Escuro do Perfil por padrão */
+  --modal-bg: #141125;
+  --modal-input-bg: #1c1833;
+  --modal-text: #ffffff;
+  --modal-subtext: #94a3b8;
+  --modal-border: rgba(255, 255, 255, 0.08);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(11, 8, 19, 0.85); /* Tom escuro profundo */
+  backdrop-filter: blur(12px); /* Efeito blur refinado */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Mapeamento dinâmico para o Tema Claro caso a classe seja detectada no irmão wrapper */
+.dashboard-wrapper.light-theme ~ .modal-overlay {
+  --modal-bg: #ffffff;
+  --modal-input-bg: #f1f5f9;
+  --modal-text: #0f172a;
+  --modal-subtext: #475569;
+  --modal-border: rgba(0, 0, 0, 0.08);
+}
+
+/* Card do Modal (Perfil-Card) */
+.modal-card {
+  background-color: var(--modal-bg);
+  border: 1px solid var(--modal-border);
+  border-radius: 20px; /* Cantos arredondados do Perfil */
+  width: 100%;
+  max-width: 550px;
+  padding: 35px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  animation: modalEnter 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+@keyframes modalEnter {
+  from { transform: scale(0.97); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Cabeçalho */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--modal-border);
+  padding-bottom: 16px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--modal-text);
+  letter-spacing: -0.5px;
+}
+
+.btn-close-modal {
+  background: none;
+  border: none;
+  color: var(--modal-subtext);
+  font-size: 28px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  line-height: 1;
+}
+
+.btn-close-modal:hover {
+  color: var(--modal-text);
+}
+
+/* Formulário e Inputs Premium */
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--modal-text);
+}
+
+.form-input, .form-textarea, .form-select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 16px;
+  border-radius: 10px; /* Cantos arredondados idênticos ao Perfil */
+  font-size: 14px;
+  background-color: var(--modal-input-bg);
+  border: 1px solid var(--modal-border);
+  color: var(--modal-text);
+  transition: all 0.2s ease;
+}
+
+.form-input::placeholder, .form-textarea::placeholder {
+  color: var(--modal-subtext);
+  opacity: 0.5;
+}
+
+/* Foco ativo com efeito Glow Roxo */
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  background-color: var(--modal-bg);
+  border-color: var(--purple-primary);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.18);
+  outline: none;
+}
+
+.form-textarea {
+  height: 110px;
+  resize: none;
+  line-height: 1.5;
+}
+
+/* Validação e Erros */
+.input-error {
+  border-color: var(--error-color) !important;
+}
+
+.validation-error {
+  color: var(--error-color);
+  font-size: 12px;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* Rodapé / Botões do Modal */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+/* Botão Salvar (Roxo Premium) */
+.btn-modal-submit {
+  flex: 2;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background-color: var(--purple-primary);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-modal-submit:hover:not(:disabled) {
+  background-color: var(--purple-hover);
+  transform: translateY(-1px);
+}
+
+.btn-modal-submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-modal-submit:disabled {
+  background-color: var(--modal-border);
+  color: var(--modal-subtext);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Botão Cancelar */
+.btn-modal-cancel {
+  flex: 1;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid var(--modal-border);
+  background: transparent;
+  color: var(--modal-subtext);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.btn-modal-cancel:hover {
+  background-color: var(--modal-input-bg);
+  color: var(--modal-text);
+}
+
+/* ==========================================
+   ESTADOS VAZIOS E RESPONSIVIDADE
+   ========================================== */
+.empty-state {
+  text-align: center;
+  padding: 60px;
+  border: 2px dashed var(--border-color);
+  border-radius: 16px;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .dashboard-main-content { margin-left: 0 !important; }
+  .filter-bar { flex-direction: column; }
+  .select-wrapper { width: 100%; }
+  .modal-card { padding: 24px; }
+}
+
+/* ==========================================
+   ESTILIZAÇÃO DOS TOGGLE SWITCHES (ATIVO/INATIVO)
+   ========================================== */
+.status-toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-label {
+  font-size: 13px;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.status-label.active {
+  color: #10b981; /* Verde */
+}
+
+.status-label.inactive {
+  color: #ef4444; /* Vermelho */
+}
+
+/* O Switch em si (Botão deslizante) */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 20px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #4b5563;
+  transition: .3s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .3s;
+}
+
+input:checked + .slider {
+  background-color: #10b981; /* Cor ativa */
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #10b981;
+}
+
+input:checked + .slider:before {
+  transform: translateX(18px);
+}
+
+/* Formato Arredondado */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Switch no Modal */
+.inline-toggle-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.m-0 {
+  margin: 0 !important;
+}
+
+.modal-switch-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.modal-switch-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+}

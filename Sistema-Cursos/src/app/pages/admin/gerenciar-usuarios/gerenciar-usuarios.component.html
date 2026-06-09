@@ -1,0 +1,120 @@
+<div class="app-layout">
+  <!-- Menu Lateral Padrão da Aplicação -->
+  <app-menu-lateral></app-menu-lateral>
+
+  <!-- Toast Flutuante de Sucesso -->
+  <div class="toast-notification" [class.show]="mostrarToast">
+    <div class="toast-content">
+      <span class="toast-icon">✓</span>
+      <span class="toast-message">{{ mensagemToast }}</span>
+    </div>
+  </div>
+
+  <!-- Área de Conteúdo Principal -->
+  <main class="main-content">
+    
+    <!-- Cabeçalho -->
+    <div class="admin-header">
+      <div>
+        <h2 class="admin-title">Painel de Usuários</h2>
+        <p class="admin-subtitle">Gerencie permissões de administradores e alunos cadastrados no banco de dados.</p>
+      </div>
+    </div>
+
+    <!-- Barra de Filtros -->
+    <div class="filter-bar">
+      <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input 
+          type="text" 
+          [(ngModel)]="buscaTexto" 
+          (input)="filtrarUsuarios()" 
+          placeholder="Buscar por nome ou e-mail..."
+          class="search-input"
+        />
+      </div>
+
+      <div class="select-wrapper">
+        <select [(ngModel)]="perfilSelecionado" (change)="filtrarUsuarios()" class="category-select">
+          <option value="TODOS">Todos os Perfis</option>
+          <option value="ADMIN">ADMIN</option>
+          <option value="ALUNO">ALUNO</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Tabela de Usuários -->
+    <div class="table-container">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>USUÁRIO</th>
+            <th>PERFIL</th>
+            <th>DATA DE CADASTRO</th>
+            <th class="text-right">AÇÕES</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let usuario of usuariosFiltrados">
+            <!-- Nome / Avatar -->
+            <td>
+              <div class="user-info-cell">
+                <div class="user-avatar" [ngClass]="getAvatarClass(usuario.nome)">
+                  {{ obterIniciais(usuario.nome, usuario.email) }}
+                </div>
+                <div class="user-meta">
+                  <span class="table-user-name">{{ usuario.nome || 'Sem Nome Cadastrado' }}</span>
+                  <span class="table-user-email">{{ usuario.email }}</span>
+                </div>
+              </div>
+            </td>
+
+            <!-- Papel (Verificação Robusta) -->
+            <td>
+              <span class="badge" [ngClass]="isUsuarioAdmin(usuario) ? 'badge-admin' : 'badge-aluno'">
+                {{ isUsuarioAdmin(usuario) ? 'ADMIN' : 'ALUNO' }}
+              </span>
+            </td>
+
+            <!-- Data de Cadastro -->
+            <td>
+              <span class="registration-date">
+                {{ usuario.dataCriacao ? (usuario.dataCriacao | date: 'dd/MM/yyyy') : 'Não informada' }}
+              </span>
+            </td>
+
+            <!-- Ações -->
+            <td>
+              <div class="actions-cell justify-end">
+                <!-- Select de Alteração de Perfil -->
+                <select 
+                  [ngModel]="isUsuarioAdmin(usuario) ? 'ADMIN' : 'ALUNO'" 
+                  (ngModelChange)="alterarPapel(usuario.id, $event)" 
+                  class="action-select"
+                >
+                  <option value="ALUNO">Tornar Aluno</option>
+                  <option value="ADMIN">Tornar Admin</option>
+                </select>
+
+                <!-- Botão Excluir -->
+                <button class="btn-action btn-delete" (click)="deletarUsuario(usuario.id)">
+                  Excluir
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Estado Vazio -->
+          <tr *ngIf="usuariosFiltrados.length === 0">
+            <td colspan="4">
+              <div class="empty-state">
+                Nenhum usuário encontrado correspondente à busca no banco de dados.
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+</div>
