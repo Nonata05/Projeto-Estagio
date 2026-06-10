@@ -1,4 +1,4 @@
-# 🔐 Servidor de Autenticação - AuthServer (.NET 10)
+#  Servidor de Autenticação - AuthServer (.NET 10)
 
 Este é o microserviço responsável pela **segurança, cadastro de usuários, autenticação e emissão de tokens JWT (JSON Web Tokens)** do Sistema de Gestão de Cursos. Ele garante que apenas usuários autenticados e com as permissões corretas possam acessar e manipular os dados de cursos e matrículas.
 
@@ -18,7 +18,7 @@ Este serviço foi desenvolvido utilizando o ecossistema mais recente da Microsof
 
 ---
 
-## 📂 Estrutura do Projeto
+##  Estrutura do Projeto
 
 A arquitetura está organizada da seguinte forma:
 
@@ -29,7 +29,7 @@ A arquitetura está organizada da seguinte forma:
 
 ---
 
-## ⚙️ Configurações (`appsettings.json`)
+##  Configurações (`appsettings.json`)
 
 O projeto está configurado para se conectar ao banco PostgreSQL do Docker e utilizar as credenciais de JWT abaixo:
 
@@ -58,13 +58,18 @@ temporariamente Host=postgres-db para Host=localhost.
 
 ## Opção 1: Via Linha de Comando (.NET CLI)
 Abra o terminal na pasta deste projeto:
-**cd "Dot Net/AuthServer"
+```bash
+cd "Dot Net/AuthServer"
+````
 
 Restaure as dependências NuGet:
-**dotnet restore
-
+```bash
+dotnet restore
+````
 Execute o projeto:
+```bash
 **dotnet run
+````
 (A API iniciará por padrão na porta http://localhost:5000)
 
 ## Opção 2: Via Docker
@@ -73,10 +78,14 @@ Este projeto possui um Dockerfile configurado para rodar junto com o banco de da
 Garanta que o banco de dados PostgreSQL do Docker Compose esteja rodando.
 
 Compile a imagem Docker do servidor de autenticação:
-** docker build -t authserver-api .
+```bash 
+docker build -t authserver-api .
+```
 
 Execute o container na mesma rede do seu banco de dados:
-**docker run -d -p 5000:5000 --name authserver authserver-api
+```bash
+docker run -d -p 5000:5000 --name authserver authserver-api
+```
 
 ## Endpoints Principais da API
 1. Criar Nova Conta (Registro)
@@ -100,7 +109,7 @@ JSON de Retorno (Sucesso):
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
   "expiration": "2026-12-31T23:59:59Z"
 }
-🔗 Integração com o Backend (Java / Spring Boot)
+##  Integração com o Backend (Java / Spring Boot)
 A assinatura do Token utiliza o emissor (MeuAuthServer) e o público-alvo (MeuSistema). Certifique-se 
 de que a API Java esteja configurada com essas mesmas propriedades para decodificar e validar o cabeçalho 
 Authorization: Bearer <TOKEN> enviado pelo Frontend.
