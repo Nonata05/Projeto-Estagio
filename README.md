@@ -75,3 +75,13 @@ Antes de rodar as aplicações, suba os serviços de banco de dados declarados n
 
 docker-compose up -d
 (Certifique-se de que o aplicativo Docker Desktop está aberto e rodando no seu computador)
+
+##  Estrutura do Repositório
+
+A organização das pastas do projeto reflete a separação de responsabilidades. Clique nos links abaixo para acessar a documentação detalhada de cada módulo:
+
+*    **[Frontend (Angular 21)](./Sistema-Cursos/README.md)**: Interface do usuário, componentes e instruções de inicialização do frontend.
+*    **[Backend Principal (Java 21 / Spring Boot)](./Spring%20Boot/ProjetoEstagio/README.md)**: Regras de negócio, mapeamento de banco de dados e controle de cursos/matrículas.
+*    **[Auth Server (C# / .NET 10)](./Dot%20Net/AuthServer/README.md)**: Microsserviço responsável pela segurança, geração de tokens JWT e controle de acessos.
+*    **[Configuração Docker (docker-compose.yml)](./docker-compose.yml)**: Arquivo de orquestração do banco de dados PostgreSQL.
+
