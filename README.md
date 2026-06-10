@@ -90,7 +90,7 @@ A organização das pastas do projeto reflete a separação de responsabilidades
 ##  Autor
 
 Desenvolvido com dedicação por:
-*   **[Seu Nome Completo]** — [GitHub (Nonata05)](https://github.com/Nonata05)
+*   **[Raimunda Nonata]** — [GitHub (Nonata05)](https://github.com/Nonata05)
 
 ---
 
