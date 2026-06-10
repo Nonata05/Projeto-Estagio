@@ -85,3 +85,17 @@ A organização das pastas do projeto reflete a separação de responsabilidades
 *    **[Auth Server (C# / .NET 10)](./Dot%20Net/AuthServer/README.md)**: Microsserviço responsável pela segurança, geração de tokens JWT e controle de acessos.
 *    **[Configuração Docker (docker-compose.yml)](./docker-compose.yml)**: Arquivo de orquestração do banco de dados PostgreSQL.
 
+---
+
+##  Autor
+
+Desenvolvido com dedicação por:
+*   **[Seu Nome Completo]** — [GitHub (Nonata05)](https://github.com/Nonata05)
+
+---
+
+##  Declaração de Uso de Inteligência Artificial
+
+Esta documentação foi estruturada, refinada e organizada com o auxílio de ferramentas de **Inteligência Artificial (IA)**. 
+
+O uso da tecnologia de IA limitou-se à formatação estética em Markdown, correção gramatical, tradução técnica de termos e organização visual da arquitetura de pastas. Toda a lógica de negócio, codificação dos microsserviços (.NET, Java e Angular) e decisões arquiteturais de infraestrutura foram concebidas e implementadas integralmente pelo autor do projeto.
