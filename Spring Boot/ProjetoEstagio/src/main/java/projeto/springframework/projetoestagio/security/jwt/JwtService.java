@@ -45,12 +45,12 @@ public class JwtService {
                 .setIssuedAt(agora)
                 .setExpiration(dataExpiracao)
                 .claim("scope", user.getPapel().name())
-                .claim("role", user.getPapel().name()) // Salva ex: "ADMIN" ou "USER"
+                .claim("role", user.getPapel().name()) // Salva ex: "ADMIN" ou "ALUNO"
                 .signWith(key)
                 .compact();
     }
 
-    // === NOVO MÉTODO ADICIONADO AQUI ===
+    
     public List<String> extractRoles(String token) {
         Claims claims = extractAllClaims(token);
         Object roles = claims.get("role");
@@ -92,7 +92,7 @@ public class JwtService {
         } catch (Exception e) {
             System.err.println("=== ERRO DETALHADO DA VALIDAÇÃO DO JWT ===");
             System.err.println("Causa do erro: " + e.getMessage());
-            e.printStackTrace(); // Imprime a pilha de erros no console
+            e.printStackTrace(); 
             return false;
         }
     }
