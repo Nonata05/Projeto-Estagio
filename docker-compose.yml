@@ -23,7 +23,7 @@ services:
   # 2. Servidor de Autenticação em .NET 10 (Preview)
   dotnet-auth-server:
     build:
-      context: ./Dot Net/AuthServer
+      context: ./dotnet/AuthServer
       dockerfile: Dockerfile
     container_name: dotnet-auth-server
     restart: always
@@ -52,7 +52,7 @@ services:
   # 4. API de Cursos em Java (Spring Boot)
   cursos-api:
     build:
-      context: "./Spring Boot/ProjetoEstagio"
+      context: "./springboot/ProjetoEstagio"
       dockerfile: Dockerfile
     container_name: java-cursos-api
     restart: always

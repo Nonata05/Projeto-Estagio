@@ -1,4 +1,4 @@
-# Estágio 1: Build e Publicação da aplicação .NET 10 (Preview)
+  # Estágio 1: Build e Publicação da aplicação .NET 10 (Preview)
 FROM mcr.microsoft.com/dotnet/sdk:10.0-preview AS build
 WORKDIR /src
 
